@@ -211,7 +211,6 @@ function vimeoPlayerReady() {
 function onYouTubePlayerAPIReady() {
   options = $(window).data('okoptions');
   player = new YT.Player('okplayer', {
-    videoId: options.video ? options.video.id : null,
     playerVars: {
       'autohide': 1,
       'autoplay': 1,
@@ -244,6 +243,11 @@ OKEvents = {
       if (options.playlist.list) {
         player.loadPlaylist(options.playlist.list, options.playlist.index, options.playlist.startSeconds, options.playlist.suggestedQuality);
       } else {
+        player.loadVideoById({
+            videoId: options.video ? options.video.id : null,
+            startSeconds: options.startSeconds,
+            endSeconds: options.endSeconds
+        });
         event.target.playVideo();
       }
       OKEvents.utils.isFunction(options.onReady) && options.onReady();
