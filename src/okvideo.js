@@ -56,6 +56,35 @@ var player, OKEvents, options;
       } else {
         base.loadYouTubeAPI();
       }
+
+      if (base.options.fillScreen) {
+        // from: https://code.google.com/p/jquery-tubular/
+        var resize = function() {
+          var $player, height, pHeight, pWidth, ratio, width;
+          ratio = 16 / 9;
+          width = $(window).width();
+          pWidth = void 0;
+          height = $(window).height();
+          pHeight = void 0;
+          $player = $("#okplayer");
+          if (width / ratio < height) {
+            pWidth = Math.ceil(height * ratio);
+            return $player.width(pWidth).height(height).css({
+              left: (width - pWidth) / 2,
+              top: 0
+            });
+          } else {
+            pHeight = Math.ceil(width / ratio);
+            return $player.width(width).height(pHeight).css({
+              left: 0,
+              top: (height - pHeight) / 2
+            });
+          }
+        };
+
+        $(window).on("resize", resize);
+        resize();
+      }
     };
 
     // clean the options
